@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://rmmrifmbhu5"]
+
+[ext_resource type="Texture2D" uid="uid://bbpwpy7376whc" path="res://car.png" id="1_bgb3g"]
+[ext_resource type="Script" path="res://actors/Car.cs" id="1_x3l5o"]
+[ext_resource type="Texture2D" uid="uid://dp3sjjqthejgf" path="res://carlight.png" id="3_gw5y2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3nxxv"]
+size = Vector2(10, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_174cn"]
+size = Vector2(10, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ng1q0"]
+size = Vector2(4, 9)
+
+[node name="Car" type="RigidBody2D" node_paths=PackedStringArray("exitPoint")]
+z_index = 1
+y_sort_enabled = true
+mass = 5000.0
+gravity_scale = 0.0
+linear_damp = 3.0
+script = ExtResource("1_x3l5o")
+exitPoint = NodePath("exitPoint")
+acceleration = 100.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.38419e-07, 0)
+shape = SubResource("RectangleShape2D_3nxxv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_bgb3g")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_174cn")
+
+[node name="Carlight" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+position = Vector2(0, -11)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_gw5y2")
+offset = Vector2(0, -16)
+
+[node name="doors" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="doors"]
+position = Vector2(8, -0.5)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_ng1q0")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="doors"]
+position = Vector2(-8, 0)
+scale = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_ng1q0")
+
+[node name="exitPoint" type="Marker2D" parent="."]
+position = Vector2(15, 0)
+
+[connection signal="body_entered" from="Area2D" to="." method="onCrash"]
+[connection signal="body_entered" from="doors" to="." method="entityIsNextToDoor"]
+[connection signal="body_exited" from="doors" to="." method="entityExitedDoorArea"]

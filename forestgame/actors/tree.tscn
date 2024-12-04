@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bip6g4yct3ll3"]
+
+[ext_resource type="Texture2D" uid="uid://ba7nd6bg422ki" path="res://tileset.png" id="1_ab0cf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cckk7"]
+atlas = ExtResource("1_ab0cf")
+region = Rect2(97, 9, 14, 23)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mx02c"]
+size = Vector2(2, 2)
+
+[node name="Tree" type="StaticBody2D"]
+z_index = 2
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(0, -7.5)
+texture = SubResource("AtlasTexture_cckk7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mx02c")
